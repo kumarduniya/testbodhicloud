@@ -8340,7 +8340,7 @@
            PDF DOWNLOAD – Clean tags, no raw syntax, proper Subject:Topic display
            INCLUDES EXPLANATIONS (FIXED)
            ========================================================================== */
-        window.adminDownloadPDF = function(code, mode) {
+        window.adminDownloadPDF = async function(code, mode) {
             const t = window.adminUnifiedTests.find(x => x.code === code);
             if (!t) return window.showCustomAlert("Error", "Data not found!", "❌");
             let raw = t.rawText || "";
@@ -8352,7 +8352,7 @@
                 t.rawText = raw;
             }
             if (!raw) return window.showCustomAlert("Empty Test", "No questions to print!", "❌");
-            const pQs = window.parseRawQuestions(raw);
+            const pQs = await window.parseRawQuestionsRemote(raw);
             if (!pQs || pQs.length === 0) return window.showCustomAlert("Parse Error", "No valid questions.", "❌");
 
             const storedQs = t.questions || [];
