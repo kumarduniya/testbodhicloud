@@ -8034,7 +8034,13 @@
             const t = window.adminUnifiedTests.find(x => x.code === code);
             if (!t) return;
             let raw = t.rawText || "";
-            if (!raw && (!t.questions || t.questions.length === 0) && !t.isFetched) { window.fetchTestForAdmin(code,
+            const hasRealAnswers = t.questions && t.questions.length > 0 && t.questions.some(q => q.ans);
+            // Bulk dashboard listener only ever carries PUBLIC fields (no
+            // answers) by design now — so "questions already present" is no
+            // longer proof we have everything. Refetch (with the secure
+            // merge) whenever answers are actually missing, not just when
+            // questions/rawText are empty.
+            if (!raw && !hasRealAnswers && !t.isFetched) { window.fetchTestForAdmin(code,
                     'edit', null); return; }
             if (!raw && t.questions && t.questions.length > 0) {
                 raw = t.questions.map((q, i) => window.reverseMapQuestionToRaw(q, i)).join('\n');
@@ -8344,7 +8350,13 @@
             const t = window.adminUnifiedTests.find(x => x.code === code);
             if (!t) return window.showCustomAlert("Error", "Data not found!", "❌");
             let raw = t.rawText || "";
-            if (!raw && (!t.questions || t.questions.length === 0) && !t.isFetched) { window.fetchTestForAdmin(code,
+            const hasRealAnswers = t.questions && t.questions.length > 0 && t.questions.some(q => q.ans);
+            // Bulk dashboard listener only ever carries PUBLIC fields (no
+            // answers) by design now — so "questions already present" is no
+            // longer proof we have everything. Refetch (with the secure
+            // merge) whenever answers are actually missing, not just when
+            // questions/rawText are empty.
+            if (!raw && !hasRealAnswers && !t.isFetched) { window.fetchTestForAdmin(code,
                     'pdf', mode); return; }
             if (raw) raw = window.sanitizeMath(raw);
             if (!raw && t.questions && t.questions.length > 0) {
