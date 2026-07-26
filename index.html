@@ -8916,10 +8916,10 @@
         /* ==========================================================================
            EXAM ENGINE
            ========================================================================== */
-        window.startExam = function(isRe) {
+        window.startExam = async function(isRe) {
             try {
                 if (window.examData.rawText && (!window.examData.questions || window.examData.questions.length === 0)) {
-                    window.examData.questions = window.parseRawQuestions(window.examData.rawText);
+                    window.examData.questions = await window.parseRawQuestionsRemote(window.examData.rawText);
                 }
                 if (!window.examData.questions || window.examData.questions.length === 0) {
                     return window.showCustomAlert("Empty Test", "❌ No questions found.", "⚠️");
