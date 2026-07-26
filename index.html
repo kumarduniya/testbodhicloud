@@ -8080,7 +8080,7 @@
             if (aPdfType) aPdfType.value = isF ? "free" : "paid";
             if (!isF && aPrice) aPrice.value = t.price || "";
             if (aRaw) aRaw.value = raw || "";
-            if (aQsCount) aQsCount.value = window.parseRawQuestions(raw || "").length;
+            window.updateQsCount();
             window.togglePriceBox();
 
             const aTestModeElem = document.getElementById('a-test-mode');
