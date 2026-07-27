@@ -10638,7 +10638,7 @@
                 window.showCustomAlert("Error", "Network Error.", "❌"); });
         };
 
-        window.handleHistoryPDFLoad = function(data) {
+        window.handleHistoryPDFLoad = async function(data) {
             window.closeModal();
             if (data.error) return window.showCustomAlert("Error", "Test data missing.", "❌");
             let raw = data.rawText || "";
@@ -10648,7 +10648,7 @@
             if (!raw && data.questions && data.questions.length > 0) {
                 raw = data.questions.map((q, i) => window.reverseMapQuestionToRaw(q, i)).join('\n');
             }
-            const pQs = window.parseRawQuestions(raw);
+            const pQs = await window.parseRawQuestionsRemote(raw);
             const oldExam = window.examData;
             const storedQs = data.questions || [];
             const taggedQs = pQs.map((q, idx) => {
