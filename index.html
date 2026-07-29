@@ -7,7 +7,6 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
@@ -4666,25 +4665,6 @@
         body.dark-mode .auth-box .sub-text::after {
             color: var(--accent-light);
         }
-        .vg-question-item {
-            display: flex; align-items: flex-start; gap: 8px;
-            padding: 8px 10px; border-radius: 8px; cursor: pointer;
-            font-size: 12px; border: 1.5px solid transparent; margin-bottom: 4px;
-        }
-        .vg-question-item:hover { background: rgba(15,43,92,0.05); }
-        .vg-question-item.active { border-color: var(--primary); background: rgba(15,43,92,0.08); }
-        .vg-q-num { font-weight: 800; color: var(--primary); flex-shrink: 0; }
-        .vg-q-text { flex: 1; color: #333; }
-        .vg-badge-pq {
-            background: var(--accent); color: var(--primary-dark); font-size: 9px;
-            font-weight: 800; padding: 1px 6px; border-radius: 20px; flex-shrink: 0;
-        }
-        .vg-prev-chapter { font-size: 10px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .vg-prev-q { font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
-        .vg-prev-opts { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
-        .vg-prev-opt { padding: 4px 8px; border-radius: 6px; background: #fff; border: 1px solid #ddd; }
-        .vg-prev-opt.correct { background: rgba(40,167,69,0.12); border-color: var(--success); font-weight: 700; }
-        .vg-pred-block { margin-top: 8px; padding: 8px; background: rgba(212,168,67,0.08); border-radius: 8px; border: 1px dashed var(--accent); }
     </style>
 </head>
 <body>
@@ -4838,7 +4818,7 @@
                 <button class="tab-btn" id="tab-logo" onclick="window.switchAdminTab('logo')">🖼️ Logo Manager</button>
                 <button class="tab-btn" id="tab-liveschedule" onclick="window.switchAdminTab('liveschedule')" style="background:var(--danger);color:#fff;">🔴 Live Test Schedule</button>
                 <button class="tab-btn" id="tab-testrooms" onclick="window.switchAdminTab('testrooms')" style="background:var(--primary);color:#fff;">👥 Test Rooms</button>
-                <button class="tab-btn" id="tab-videogen" onclick="window.switchAdminTab('videogen')" style="background:var(--accent);color:var(--primary-dark);">🎬 Video Generator</button>
+                <button class="tab-btn" id="tab-dailyquiz" onclick="window.switchAdminTab('dailyquiz')" style="background:#8e44ad;color:#fff;">📰 Daily Quiz</button>
                 <button class="tab-btn" id="tab-logout" onclick="window.logoutAdmin()" style="background:var(--danger);color:#fff;margin-left:auto;">🚪 Logout</button>
             </div>
 
@@ -5237,67 +5217,25 @@
                 </div>
             </div>
 
-            <div id="admin-videogen-section" style="display:none;">
-                <div class="admin-section" style="border:2px solid var(--accent);">
-                    <div class="admin-section-title" style="color:var(--accent);font-size:14px;">🎬 YouTube Shorts Video Generator <span class="badge-admin" style="background:var(--accent);color:var(--primary-dark);padding:1px 10px;border-radius:50px;font-size:10px;font-weight:700;">Beta — No Voice Yet</span></div>
-                    <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">
-                        Board → Exam → Subject → Chapter select karke koi bhi specific question pick karo, aur uska 9:16 Shorts-style video (silent preview) generate karo. Voice/AI narration baad mein add hoga.
-                    </p>
+            <div id="admin-dailyquiz-section" style="display:none;">
+                <div class="admin-section">
+                    <div class="admin-section-title">📰 Daily Current-Affairs Quiz Generator</div>
 
-                    <div class="admin-grid-2" style="margin-bottom:6px;">
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label style="color:var(--primary);font-size:11px;">1️⃣ Board</label>
-                            <select id="vg-board" onchange="window.vgOnBoardChange()">
-                                <option value="">Loading...</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label style="color:var(--primary);font-size:11px;">2️⃣ Exam</label>
-                            <select id="vg-exam" onchange="window.vgOnExamChange()">
-                                <option value="">-- pehle Board select karo --</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label style="color:var(--primary);font-size:11px;">3️⃣ Test Code</label>
-                            <select id="vg-testcode" onchange="window.vgOnTestCodeChange()">
-                                <option value="">-- pehle Exam select karo --</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label style="color:var(--primary);font-size:11px;">4️⃣ Subject</label>
-                            <select id="vg-subject" onchange="window.vgOnSubjectChange()">
-                                <option value="">-- pehle Test Code select karo --</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label style="color:var(--primary);font-size:11px;">5️⃣ Chapter / Topic</label>
-                            <select id="vg-chapter" onchange="window.vgOnChapterChange()">
-                                <option value="">-- pehle Subject select karo --</option>
-                            </select>
-                        </div>
-                    </div>
+                    <label style="font-weight:600;font-size:13px;">Select Date</label>
+                    <input type="date" id="dq-date" style="padding:10px;border:1px solid #ccc;border-radius:8px;margin:6px 0 14px;display:block;width:220px;">
 
-                    <button class="btn btn-outline btn-sm" onclick="window.vgPopulateBoards()" style="margin-bottom:14px;">🔄 Refresh Test List</button>
+                    <label style="font-weight:600;font-size:13px;">Number of Questions</label>
+                    <input type="number" id="dq-count" value="30" min="5" max="30" style="padding:10px;border:1px solid #ccc;border-radius:8px;margin:6px 0 14px;display:block;width:220px;">
 
-                    <div class="form-group" style="margin-bottom:12px;">
-                        <label style="color:var(--primary);font-size:11px;">6️⃣ Question Select Karo</label>
-                        <div id="vg-question-list" style="max-height:220px;overflow-y:auto;border:1.5px solid var(--border-color,#ddd);border-radius:var(--radius);padding:6px;background:#fff;"></div>
-                    </div>
+                    <button id="btn-dq-generate" class="btn btn-primary" onclick="window.generateDailyQuiz()">✨ Generate Quiz (via Gemini)</button>
+                    <button id="btn-dq-load" class="btn" style="background:#607d8b;color:#fff;" onclick="window.loadExistingDailyQuiz()">📂 Load Existing Quiz for this Date</button>
 
-                    <div id="vg-preview-box" style="display:none;background:rgba(15,43,92,0.04);border:2px dashed var(--primary);border-radius:var(--radius);padding:14px;margin-bottom:14px;font-size:13px;"></div>
+                    <div id="dq-status" style="margin-top:14px;font-size:13px;"></div>
 
-                    <div class="admin-grid-2" style="margin-bottom:10px;">
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label style="color:var(--primary);font-size:11px;">⏱️ Timer (seconds)</label>
-                            <input type="number" id="vg-timer-seconds" value="10" min="5" max="30" />
-                        </div>
-                    </div>
+                    <div id="dq-preview" style="margin-top:18px;"></div>
 
-                    <button class="btn btn-primary" id="vg-generate-btn" onclick="window.vgGenerateVideo()" disabled>🎬 Generate Video (Silent Preview)</button>
-                    <p id="vg-status" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></p>
-
-                    <div id="vg-canvas-wrap" style="display:none;margin-top:14px;text-align:center;">
-                        <canvas id="vg-canvas" width="1080" height="1920" style="width:100%;max-width:270px;border-radius:12px;box-shadow:var(--shadow-lg);background:#000;"></canvas>
+                    <div id="dq-save-row" style="margin-top:16px;display:none;">
+                        <button id="btn-dq-save" class="btn btn-success" onclick="window.saveDailyQuizToFirebase()">✅ Save to Firebase (Publish)</button>
                     </div>
                 </div>
             </div>
@@ -7635,7 +7573,6 @@
             const logoSec = document.getElementById('admin-logo-section');
             const liveSchedSec = document.getElementById('admin-liveschedule-section');
             const testRoomsSec = document.getElementById('admin-testrooms-section');
-            const videoGenSec = document.getElementById('admin-videogen-section');
             if (createSec) createSec.style.display = 'none';
             if (manageSec) manageSec.style.display = 'none';
             if (iconSec) iconSec.style.display = 'none';
@@ -7644,7 +7581,6 @@
             if (logoSec) logoSec.style.display = 'none';
             if (liveSchedSec) liveSchedSec.style.display = 'none';
             if (testRoomsSec) testRoomsSec.style.display = 'none';
-            if (videoGenSec) videoGenSec.style.display = 'none';
             document.querySelectorAll('.admin-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
             const tabs = document.querySelectorAll('.admin-tabs .tab-btn');
             if (tab === 'create') {
@@ -7706,12 +7642,14 @@
                 const roomsSec = document.getElementById('admin-testrooms-section');
                 if (roomsSec) roomsSec.style.display = 'block';
                 window.loadAdminTestRooms();
-            } else if (tab === 'videogen') {
+            } else if (tab === 'dailyquiz') {
                 if (tabs.length > 8) tabs[8].classList.add('active');
-                if (videoGenSec) videoGenSec.style.display = 'block';
-                window.fetchActiveTests(function() {
-                    window.vgPopulateBoards();
-                });
+                const dqSec = document.getElementById('admin-dailyquiz-section');
+                if (dqSec) dqSec.style.display = 'block';
+                const dateInput = document.getElementById('dq-date');
+                if (dateInput && !dateInput.value) {
+                    dateInput.value = new Date().toISOString().split('T')[0];
+                }
             }
         };
 
@@ -11461,6 +11399,132 @@
            Friends" rooms exist and who's inside each one, and force-delete any
            room directly (spam room, duplicate room, or just cleaning up).
            ========================================================================== */
+        // ============================================================================
+        // Daily Current-Affairs Quiz — calls the daily-quiz-generator Cloudflare
+        // Worker (GNews + Gemini live server-side there, keys never touch this
+        // file), shows a preview, and only writes to Firestore when the admin
+        // explicitly clicks "Save to Firebase".
+        // ============================================================================
+        const DAILY_QUIZ_WORKER_URL = "https://daily-quiz-generator.girlsstudents2023.workers.dev";
+        const DAILY_QUIZ_KEY = "PASTE_YOUR_PARSER_SECRET_HERE"; // must match PARSER_SECRET set in that Worker
+
+        window._dqCurrentQuestions = null;
+
+        window.generateDailyQuiz = async function() {
+            const dateEl = document.getElementById('dq-date');
+            const countEl = document.getElementById('dq-count');
+            const statusEl = document.getElementById('dq-status');
+            const previewEl = document.getElementById('dq-preview');
+            const saveRow = document.getElementById('dq-save-row');
+            const btn = document.getElementById('btn-dq-generate');
+
+            const date = dateEl?.value || new Date().toISOString().split('T')[0];
+            const count = parseInt(countEl?.value) || 30;
+
+            if (btn) { btn.disabled = true; btn.innerText = "⏳ Generating... (may take 20-30s)"; }
+            if (statusEl) statusEl.innerHTML = "";
+            if (previewEl) previewEl.innerHTML = "";
+            if (saveRow) saveRow.style.display = "none";
+            window._dqCurrentQuestions = null;
+
+            try {
+                const res = await fetch(DAILY_QUIZ_WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Parser-Key": DAILY_QUIZ_KEY },
+                    body: JSON.stringify({ count })
+                });
+                const data = await res.json();
+                if (!res.ok || data.error) {
+                    throw new Error(data.error || ("Worker returned " + res.status));
+                }
+                window._dqCurrentQuestions = data.questions || [];
+                if (statusEl) statusEl.innerHTML =
+                    `<span style="color:green;">✅ ${window._dqCurrentQuestions.length} questions generated for ${date}. Review below, then Save.</span>`;
+                window.renderDailyQuizPreview(window._dqCurrentQuestions);
+                if (saveRow) saveRow.style.display = window._dqCurrentQuestions.length > 0 ? "block" : "none";
+            } catch (err) {
+                if (statusEl) statusEl.innerHTML = `<span style="color:red;">❌ ${err.message}</span>`;
+            } finally {
+                if (btn) { btn.disabled = false; btn.innerText = "✨ Generate Quiz (via Gemini)"; }
+            }
+        };
+
+        window.renderDailyQuizPreview = function(questions) {
+            const previewEl = document.getElementById('dq-preview');
+            if (!previewEl) return;
+            if (!questions || questions.length === 0) {
+                previewEl.innerHTML = "<p style='color:var(--text-muted);'>No questions to show.</p>";
+                return;
+            }
+            let h = `<div style="max-height:500px;overflow-y:auto;border:1px solid #eee;border-radius:10px;padding:10px;">`;
+            questions.forEach((q, i) => {
+                const correctText = q[q.ans] || "";
+                h += `
+                    <div style="padding:10px;border-bottom:1px solid #f0f0f0;">
+                        <div style="font-weight:600;">Q${i+1}. ${q.q || ""}</div>
+                        <div style="font-size:13px;margin:4px 0;">
+                            A. ${q.A || ""} &nbsp; B. ${q.B || ""} &nbsp; C. ${q.C || ""} &nbsp; D. ${q.D || ""}
+                        </div>
+                        <div style="font-size:13px;color:green;">✔ Correct: ${q.ans || "?"} (${correctText})</div>
+                        <div style="font-size:12px;color:var(--text-muted);">${q.exp || ""}</div>
+                    </div>`;
+            });
+            h += `</div>`;
+            previewEl.innerHTML = h;
+        };
+
+        window.saveDailyQuizToFirebase = function() {
+            const dateEl = document.getElementById('dq-date');
+            const statusEl = document.getElementById('dq-status');
+            const date = dateEl?.value || new Date().toISOString().split('T')[0];
+            const questions = window._dqCurrentQuestions;
+
+            if (!questions || questions.length === 0) {
+                return window.showCustomAlert("Error", "Pehle Quiz Generate karein.", "❌");
+            }
+
+            db.collection("daily_quizzes").doc(date).set({
+                quizData: JSON.stringify(questions),
+                createdAt: new Date().toISOString(),
+                count: questions.length
+            }).then(() => {
+                if (statusEl) statusEl.innerHTML =
+                    `<span style="color:green;">✅ ${date} ka Quiz Firebase me Save ho gaya! Students ab isse khel sakte hain.</span>`;
+                window.showCustomAlert("Success", `Daily Quiz for ${date} saved!`, "🎉");
+            }).catch(err => {
+                if (statusEl) statusEl.innerHTML = `<span style="color:red;">❌ Save failed: ${err.message}</span>`;
+            });
+        };
+
+        window.loadExistingDailyQuiz = function() {
+            const dateEl = document.getElementById('dq-date');
+            const statusEl = document.getElementById('dq-status');
+            const saveRow = document.getElementById('dq-save-row');
+            const date = dateEl?.value || new Date().toISOString().split('T')[0];
+
+            if (statusEl) statusEl.innerHTML = "⏳ Loading...";
+            db.collection("daily_quizzes").doc(date).get().then(doc => {
+                if (!doc.exists) {
+                    if (statusEl) statusEl.innerHTML =
+                        `<span style="color:orange;">⚠️ ${date} ke liye abhi tak koi Quiz nahi bana hai.</span>`;
+                    window._dqCurrentQuestions = null;
+                    window.renderDailyQuizPreview([]);
+                    if (saveRow) saveRow.style.display = "none";
+                    return;
+                }
+                const data = doc.data();
+                let questions = [];
+                try { questions = JSON.parse(data.quizData || "[]"); } catch (e) {}
+                window._dqCurrentQuestions = questions;
+                if (statusEl) statusEl.innerHTML =
+                    `<span style="color:green;">✅ ${date} ka existing Quiz load ho gaya (${questions.length} questions).</span>`;
+                window.renderDailyQuizPreview(questions);
+                if (saveRow) saveRow.style.display = questions.length > 0 ? "block" : "none";
+            }).catch(err => {
+                if (statusEl) statusEl.innerHTML = `<span style="color:red;">❌ ${err.message}</span>`;
+            });
+        };
+
         window.loadAdminTestRooms = function() {
             const box = document.getElementById('admin-testrooms-list');
             if (!box) return;
@@ -11560,727 +11624,6 @@
                 });
             } catch (e) { /* fail silent — cosmetic layer only, never breaks the app */ }
         })();
-
-        /* ==========================================================================
-           VIDEO GENERATOR (YouTube Shorts style) — Board→Exam→Subject→Chapter→Question
-           Phase 1: silent canvas preview only. Voice/TTS will be added later on top
-           of this same pipeline, so nothing here touches the student-facing app or
-           any existing admin data — it only READS window.adminUnifiedTests.
-           ========================================================================== */
-        window.vgVal = function(id) {
-            const el = document.getElementById(id);
-            return el ? el.value : "";
-        };
-
-        window.vgStripHtml = function(html) {
-            if (!html) return "";
-            return String(html).replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').trim();
-        };
-
-        // The tag that sits ABOVE each question is the !T line, e.g.:
-        //   !T सामान्य हिंदी :: पर्यायवाची शब्द :: कमल
-        // Format is "Subject :: Chapter :: Keyword", separated by "::".
-        window.vgParseTag = function(topicTag) {
-            if (!topicTag || !topicTag.trim()) return { subject: 'Untagged', chapter: 'General' };
-            const parts = topicTag.split('::').map(p => p.trim()).filter(p => p);
-            if (parts.length >= 2) {
-                return { subject: parts[0], chapter: parts[1] };
-            }
-            return { subject: parts[0] || 'Untagged', chapter: 'General' };
-        };
-
-        window.vgBuildBoardExamMap = function() {
-            const tests = (window.adminUnifiedTests && window.adminUnifiedTests.length > 0) ?
-                window.adminUnifiedTests : window.getAllMergedTests();
-            window.vgBoardExamMap = {};
-            tests.forEach(t => {
-                if (!t.questions || !Array.isArray(t.questions) || t.questions.length === 0) return;
-                const p = window.parseHack(t.topic);
-                const board = p.board || t.exam || "General Exam";
-                const exam = t.exam || "Mock Test";
-                if (!window.vgBoardExamMap[board]) window.vgBoardExamMap[board] = {};
-                if (!window.vgBoardExamMap[board][exam]) window.vgBoardExamMap[board][exam] = [];
-                window.vgBoardExamMap[board][exam].push({ code: t.code, label: p.subcat || t.code, questions: t.questions });
-            });
-        };
-
-        window.vgResetPreview = function() {
-            window.vgSelected = null;
-            const previewBox = document.getElementById('vg-preview-box');
-            if (previewBox) { previewBox.style.display = 'none'; previewBox.innerHTML = ''; }
-            const genBtn = document.getElementById('vg-generate-btn');
-            if (genBtn) genBtn.disabled = true;
-            const canvasWrap = document.getElementById('vg-canvas-wrap');
-            if (canvasWrap) canvasWrap.style.display = 'none';
-            const statusEl = document.getElementById('vg-status');
-            if (statusEl) statusEl.innerText = '';
-        };
-
-        window.vgPopulateBoards = function() {
-            window.vgBuildBoardExamMap();
-            const sel = document.getElementById('vg-board');
-            if (!sel) return;
-            sel.innerHTML = '<option value="">1. Board select karo</option>';
-            Object.keys(window.vgBoardExamMap).sort().forEach(b => {
-                sel.innerHTML += `<option value="${b}">${b}</option>`;
-            });
-            const examSel = document.getElementById('vg-exam');
-            const codeSel = document.getElementById('vg-testcode');
-            const subSel = document.getElementById('vg-subject');
-            const chapSel = document.getElementById('vg-chapter');
-            if (examSel) examSel.innerHTML = '<option value="">-- pehle Board select karo --</option>';
-            if (codeSel) codeSel.innerHTML = '<option value="">-- pehle Exam select karo --</option>';
-            if (subSel) subSel.innerHTML = '<option value="">-- pehle Test Code select karo --</option>';
-            if (chapSel) chapSel.innerHTML = '<option value="">-- pehle Subject select karo --</option>';
-            const list = document.getElementById('vg-question-list');
-            if (list) list.innerHTML = '';
-            window.vgResetPreview();
-        };
-
-        window.vgOnBoardChange = function() {
-            const b = window.vgVal('vg-board');
-            const examSel = document.getElementById('vg-exam');
-            if (examSel) {
-                examSel.innerHTML = '<option value="">2. Exam select karo</option>';
-                if (b && window.vgBoardExamMap[b]) {
-                    Object.keys(window.vgBoardExamMap[b]).sort().forEach(e => {
-                        examSel.innerHTML += `<option value="${e}">${e}</option>`;
-                    });
-                }
-            }
-            const codeSel = document.getElementById('vg-testcode');
-            if (codeSel) codeSel.innerHTML = '<option value="">-- pehle Exam select karo --</option>';
-            const subSel = document.getElementById('vg-subject');
-            if (subSel) subSel.innerHTML = '<option value="">-- pehle Test Code select karo --</option>';
-            const chapSel = document.getElementById('vg-chapter');
-            if (chapSel) chapSel.innerHTML = '<option value="">-- pehle Subject select karo --</option>';
-            const list = document.getElementById('vg-question-list');
-            if (list) list.innerHTML = '';
-            window.vgResetPreview();
-        };
-
-        // Board+Exam select hone ke baad, us exam ke andar jitne bhi tests hain
-        // unki list yahan Test Code dropdown mein aati hai.
-        window.vgOnExamChange = function() {
-            const b = window.vgVal('vg-board');
-            const e = window.vgVal('vg-exam');
-            const codeSel = document.getElementById('vg-testcode');
-            const subSel = document.getElementById('vg-subject');
-            const chapSel = document.getElementById('vg-chapter');
-            const list = document.getElementById('vg-question-list');
-            if (subSel) subSel.innerHTML = '<option value="">-- pehle Test Code select karo --</option>';
-            if (chapSel) chapSel.innerHTML = '<option value="">-- pehle Subject select karo --</option>';
-            if (list) list.innerHTML = '';
-            window.vgResetPreview();
-            if (codeSel) codeSel.innerHTML = '<option value="">3. Test Code select karo</option>';
-            window.vgCurrentTestEntries = [];
-            if (!b || !e || !window.vgBoardExamMap[b] || !window.vgBoardExamMap[b][e]) return;
-            window.vgCurrentTestEntries = window.vgBoardExamMap[b][e];
-            if (codeSel) {
-                window.vgCurrentTestEntries.forEach(entry => {
-                    const safe = String(entry.code).replace(/"/g, '&quot;');
-                    const labelSafe = String(entry.label || entry.code).replace(/</g, '&lt;');
-                    codeSel.innerHTML += `<option value="${safe}">${entry.code} — ${labelSafe} (${entry.questions.length} Q)</option>`;
-                });
-            }
-        };
-
-        // Test Code select hone ke baad, USI test ke andar ke questions ke !T tag
-        // se Subject dropdown banta hai — dusre tests ke tags isme mix nahi honge.
-        window.vgOnTestCodeChange = function() {
-            const code = window.vgVal('vg-testcode');
-            const subSel = document.getElementById('vg-subject');
-            const chapSel = document.getElementById('vg-chapter');
-            const list = document.getElementById('vg-question-list');
-            if (chapSel) chapSel.innerHTML = '<option value="">-- pehle Subject select karo --</option>';
-            if (list) list.innerHTML = '';
-            window.vgResetPreview();
-            window.vgFlatAll = [];
-            if (subSel) subSel.innerHTML = '<option value="">4. Subject select karo</option>';
-            if (!code || !window.vgCurrentTestEntries) return;
-            const entry = window.vgCurrentTestEntries.find(en => String(en.code) === code);
-            if (!entry) return;
-            const subjMap = {};
-            entry.questions.forEach((q, idx) => {
-                const parsed = window.vgParseTag(q.topicTag);
-                subjMap[parsed.subject] = (subjMap[parsed.subject] || 0) + 1;
-                window.vgFlatAll.push({ code: entry.code, idx: idx, subject: parsed.subject, chapter: parsed.chapter, rawTag: q.topicTag || '', q: q });
-            });
-            if (subSel) {
-                Object.keys(subjMap).sort().forEach(s => {
-                    const safe = s.replace(/"/g, '&quot;');
-                    subSel.innerHTML += `<option value="${safe}">${s} (${subjMap[s]})</option>`;
-                });
-            }
-        };
-
-        // Subject select hone ke baad, usi tag ke doosre hisse (Chapter) se
-        // Chapter dropdown banta hai — sirf usi subject ke andar.
-        window.vgOnSubjectChange = function() {
-            const s = window.vgVal('vg-subject');
-            const chapSel = document.getElementById('vg-chapter');
-            const list = document.getElementById('vg-question-list');
-            if (list) list.innerHTML = '';
-            window.vgResetPreview();
-            if (chapSel) chapSel.innerHTML = '<option value="">5. Chapter select karo</option>';
-            if (!s || !window.vgFlatAll) return;
-            const matched = window.vgFlatAll.filter(item => item.subject === s);
-            const chapterMap = {};
-            matched.forEach(item => { chapterMap[item.chapter] = (chapterMap[item.chapter] || 0) + 1; });
-            if (chapSel) {
-                Object.keys(chapterMap).sort().forEach(c => {
-                    const safe = c.replace(/"/g, '&quot;');
-                    chapSel.innerHTML += `<option value="${safe}">${c} (${chapterMap[c]})</option>`;
-                });
-            }
-        };
-
-        window.vgOnChapterChange = function() {
-            const s = window.vgVal('vg-subject');
-            const chap = window.vgVal('vg-chapter');
-            const listEl = document.getElementById('vg-question-list');
-            if (listEl) listEl.innerHTML = '';
-            window.vgResetPreview();
-            if (!chap || !window.vgFlatAll || !listEl) return;
-            const matched = window.vgFlatAll.filter(item => item.subject === s && item.chapter === chap);
-            if (matched.length === 0) {
-                listEl.innerHTML = '<p style="font-size:12px;color:var(--text-muted);padding:6px;">Is chapter mein koi question nahi mila.</p>';
-                return;
-            }
-            matched.forEach((item, i) => {
-                const preview = window.vgStripHtml(item.q.q).slice(0, 90);
-                const div = document.createElement('div');
-                div.className = 'vg-question-item';
-                const pqBadge = (item.q.predicted && item.q.predicted.some(p => p.q)) ?
-                    '<span class="vg-badge-pq">🔮 PQ</span>' : '';
-                div.innerHTML = `<span class="vg-q-num">Q${i + 1}</span><span class="vg-q-text">${preview}${preview.length >= 90 ? '…' : ''}</span>${pqBadge}`;
-                div.onclick = function() { window.vgSelectQuestion(item, div); };
-                listEl.appendChild(div);
-            });
-        };
-
-        window.vgSelectQuestion = function(item, el) {
-            window.vgSelected = item;
-            document.querySelectorAll('.vg-question-item').forEach(x => x.classList.remove('active'));
-            if (el) el.classList.add('active');
-            const q = item.q;
-            const previewBox = document.getElementById('vg-preview-box');
-            if (!previewBox) return;
-            const correctAns = q.ans ? window.getCleanAns(q.ans) : "";
-            const optsHtml = (q.opts || []).map(o =>
-                `<div class="vg-prev-opt ${o.id === correctAns ? 'correct' : ''}">${o.id}. ${window.vgStripHtml(o.text)}</div>`
-            ).join('');
-            let predHtml = '';
-            if (q.predicted && q.predicted.length > 0) {
-                predHtml = q.predicted.map((p, pi) => {
-                    if (!p.q) return '';
-                    return `<div class="vg-pred-block"><b>🔮 Predicted Q${pi + 1}:</b> ${window.vgStripHtml(p.q)}${p.s ? `<br><b>Solution:</b> ${window.vgStripHtml(p.s)}` : ''}</div>`;
-                }).join('');
-            }
-            previewBox.innerHTML =
-                `<div class="vg-prev-chapter">🏷️ Tag: ${item.rawTag ? item.rawTag : (item.subject + ' :: ' + item.chapter)}</div>` +
-                `<div class="vg-prev-q">${window.vgStripHtml(q.q)}</div>` +
-                `<div class="vg-prev-opts">${optsHtml}</div>` +
-                predHtml;
-            previewBox.style.display = 'block';
-            const genBtn = document.getElementById('vg-generate-btn');
-            if (genBtn) genBtn.disabled = false;
-        };
-
-        /* ---- Canvas drawing helpers ---- */
-        window.vgWrapText = function(ctx, text, x, y, maxWidth, lineHeight) {
-            const words = String(text).split(' ');
-            let line = '';
-            let lines = [];
-            for (let n = 0; n < words.length; n++) {
-                const testLine = line + words[n] + ' ';
-                if (ctx.measureText(testLine).width > maxWidth && n > 0) {
-                    lines.push(line.trim());
-                    line = words[n] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line.trim());
-            lines.forEach((l, i) => ctx.fillText(l, x, y + i * lineHeight));
-            return lines.length * lineHeight;
-        };
-
-        window.vgLoadImage = function(url) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = url;
-            });
-        };
-
-        window.vgGetWrappedLines = function(ctx, text, maxWidth) {
-            const words = String(text).split(' ');
-            let line = '';
-            const lines = [];
-            for (let n = 0; n < words.length; n++) {
-                const testLine = line + words[n] + ' ';
-                if (ctx.measureText(testLine).width > maxWidth && n > 0) {
-                    lines.push(line.trim());
-                    line = words[n] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line.trim());
-            return lines;
-        };
-
-        window.vgRoundRect = function(ctx, x, y, w, h, r) {
-            ctx.beginPath();
-            ctx.moveTo(x + r, y);
-            ctx.arcTo(x + w, y, x + w, y + h, r);
-            ctx.arcTo(x + w, y + h, x, y + h, r);
-            ctx.arcTo(x, y + h, x, y, r);
-            ctx.arcTo(x, y, x + w, y, r);
-            ctx.closePath();
-        };
-
-        // Parses explanation/solution HTML (which uses <br> for line breaks and
-        // <b>...</b> for bold, coming from the "**bold**" markdown in raw questions)
-        // into paragraphs of {text, bold} word-tokens, so bold headings actually
-        // render bold on the canvas instead of being stripped to plain text.
-        window.vgParseRichText = function(html) {
-            if (!html) return [[]];
-            let str = String(html).replace(/<br\s*\/?>/gi, '\n');
-            const paras = str.split('\n');
-            return paras.map(para => {
-                const tokens = [];
-                const regex = /<b>(.*?)<\/b>/gi;
-                let lastIndex = 0, m;
-                while ((m = regex.exec(para)) !== null) {
-                    if (m.index > lastIndex) tokens.push({ text: para.slice(lastIndex, m.index), bold: false });
-                    tokens.push({ text: m[1], bold: true });
-                    lastIndex = regex.lastIndex;
-                }
-                if (lastIndex < para.length) tokens.push({ text: para.slice(lastIndex), bold: false });
-                return tokens
-                    .map(t => ({ text: t.text.replace(/<[^>]+>/g, ''), bold: t.bold }))
-                    .filter(t => t.text.trim().length > 0);
-            });
-        };
-
-        window.vgLayoutRichText = function(ctx, html, maxWidth, fontSize, weight, family) {
-            weight = weight || '600';
-            family = family || '"Noto Sans Devanagari", Poppins, sans-serif';
-            const normalFontSpec = `${weight} ${fontSize}px ${family}`;
-            const boldFontSpec = `800 ${fontSize}px ${family}`;
-            const paragraphs = window.vgParseRichText(html);
-            const lines = [];
-            paragraphs.forEach(tokens => {
-                const words = [];
-                tokens.forEach(t => {
-                    t.text.split(' ').forEach(w => { if (w) words.push({ text: w, bold: t.bold }); });
-                });
-                if (words.length === 0) { lines.push([]); return; }
-                let line = [], lineWidth = 0;
-                words.forEach(w => {
-                    ctx.font = w.bold ? boldFontSpec : normalFontSpec;
-                    const wWidth = ctx.measureText(w.text + ' ').width;
-                    if (lineWidth + wWidth > maxWidth && line.length > 0) {
-                        lines.push(line);
-                        line = []; lineWidth = 0;
-                    }
-                    line.push(w);
-                    lineWidth += wWidth;
-                });
-                lines.push(line);
-            });
-            return { lines: lines, normalFontSpec: normalFontSpec, boldFontSpec: boldFontSpec };
-        };
-
-        window.vgDrawRichLines = function(ctx, layout, x, startY, lineHeight, normalColor, boldColor) {
-            let y = startY;
-            layout.lines.forEach(line => {
-                let cx = x;
-                line.forEach(w => {
-                    ctx.font = w.bold ? layout.boldFontSpec : layout.normalFontSpec;
-                    ctx.fillStyle = w.bold ? (boldColor || '#ffd76b') : (normalColor || 'rgba(255,255,255,0.92)');
-                    ctx.fillText(w.text, cx, y);
-                    cx += ctx.measureText(w.text + ' ').width;
-                });
-                y += lineHeight;
-            });
-        };
-
-        window.vgFitRichText = function(ctx, html, maxWidth, availableHeight, minFont, maxFont, weight, family) {
-            let font = maxFont, layout, lineHeight;
-            while (font >= minFont) {
-                layout = window.vgLayoutRichText(ctx, html, maxWidth, font, weight, family);
-                lineHeight = font + Math.round(font * 0.35);
-                const totalH = layout.lines.length * lineHeight;
-                if (totalH <= availableHeight || font <= minFont) break;
-                font -= 2;
-            }
-            return { layout: layout, font: font, lineHeight: lineHeight };
-        };
-
-        window.vgFitTextBlock = function(ctx, text, maxWidth, availableHeight, minFont, maxFont, weight, family) {
-            weight = weight || '600';
-            family = family || '"Noto Sans Devanagari", Poppins, sans-serif';
-            let font = maxFont;
-            let lines = [], lineHeight = font + Math.round(font * 0.35);
-            while (font >= minFont) {
-                ctx.font = `${weight} ${font}px ${family}`;
-                lines = window.vgGetWrappedLines(ctx, text, maxWidth);
-                lineHeight = font + Math.round(font * 0.35);
-                const totalH = lines.length * lineHeight;
-                if (totalH <= availableHeight || font <= minFont) break;
-                font -= 2;
-            }
-            return { font: font, lines: lines, lineHeight: lineHeight };
-        };
-
-        window.vgDrawHeader = function(ctx, W, H, chapterLabel, logoImg) {
-            const grad = ctx.createLinearGradient(0, 0, 0, H);
-            grad.addColorStop(0, '#0f2b5c');
-            grad.addColorStop(1, '#193a72');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, W, H);
-
-            const logoX = 115, logoY = 115, logoR = 55;
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(logoX, logoY, logoR, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            if (logoImg) {
-                ctx.clip();
-                try { ctx.drawImage(logoImg, logoX - logoR, logoY - logoR, logoR * 2, logoR * 2); }
-                catch (e) { /* image tainted/failed — white circle stays as fallback */ }
-            }
-            ctx.restore();
-
-            ctx.textAlign = 'left';
-            ctx.fillStyle = '#d4a843';
-            ctx.font = '800 48px Poppins, sans-serif';
-            ctx.fillText('TEST BODHI', logoX + logoR + 26, logoY - 4);
-            ctx.fillStyle = 'rgba(255,255,255,0.75)';
-            ctx.font = '600 30px "Noto Sans Devanagari", Poppins, sans-serif';
-            ctx.fillText(chapterLabel || '', logoX + logoR + 26, logoY + 38);
-
-            ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(50, 210);
-            ctx.lineTo(W - 50, 210);
-            ctx.stroke();
-        };
-
-        window.vgDrawBaseCard = function(ctx, W, H, chapterLabel) {
-            window.vgDrawHeader(ctx, W, H, chapterLabel, window.vgActiveLogoImg || null);
-        };
-
-        window.vgGenerateVideo = async function() {
-            if (!window.vgSelected) return;
-            const statusEl = document.getElementById('vg-status');
-            const canvasWrap = document.getElementById('vg-canvas-wrap');
-            const canvas = document.getElementById('vg-canvas');
-            if (!canvas) return;
-            if (canvasWrap) canvasWrap.style.display = 'block';
-            if (statusEl) statusEl.innerText = '⏳ Fonts load ho rahe hain...';
-
-            try {
-                await document.fonts.load('700 34px Poppins');
-                await document.fonts.load('600 26px "Noto Sans Devanagari"');
-                await document.fonts.ready;
-            } catch (e) { /* fonts API may not fully resolve on old browsers — continue anyway */ }
-
-            const q = window.vgSelected.q;
-            const chapter = window.vgSelected.chapter;
-            const correctAns = q.ans ? window.getCleanAns(q.ans) : "";
-            const expText = window.vgStripHtml(q.exp || '');
-            const expRaw = q.exp || '';
-            const timerSeconds = Math.max(5, Math.min(30, parseInt(window.vgVal('vg-timer-seconds'), 10) || 10));
-            const predictedList = (q.predicted || []).filter(p => p.q && p.q.trim());
-
-            const W = canvas.width, H = canvas.height;
-            const ctx = canvas.getContext('2d');
-
-            window.vgActiveLogoImg = null;
-            if (window.portalLogoURL && window.portalLogoURL.startsWith('http')) {
-                if (statusEl) statusEl.innerText = '⏳ Logo load ho raha hai...';
-                try {
-                    window.vgActiveLogoImg = await window.vgLoadImage(window.portalLogoURL);
-                } catch (e) {
-                    window.vgActiveLogoImg = null; // fallback: header will just show text, no logo image
-                }
-            }
-
-            // ---- Timeline segments (ms) — built as a list; predicted questions now
-            // appear together as ONE list-style screen instead of one-by-one ----
-            const expExtraMs = expText ? Math.min(9000, expText.length * 45) : 0;
-            const segments = [];
-            segments.push({ type: 'question', duration: timerSeconds * 1000 });
-            segments.push({ type: 'answer', duration: 3000 + expExtraMs });
-            if (predictedList.length > 0) {
-                let predChars = 0;
-                predictedList.forEach(p => {
-                    predChars += window.vgStripHtml(p.q).length;
-                    if (p.s) predChars += window.vgStripHtml(p.s).length;
-                });
-                const predDuration = Math.max(5000, Math.min(20000, predChars * 55));
-                segments.push({ type: 'predList', duration: predDuration });
-            }
-            segments.push({ type: 'end', duration: 2000 });
-            let runningStart = 0;
-            segments.forEach(s => { s.start = runningStart; runningStart += s.duration; });
-            const TOTAL = runningStart;
-
-            function drawQuestionScreen(msLeft) {
-                window.vgDrawBaseCard(ctx, W, H, chapter);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 48px "Noto Sans Devanagari", Poppins, sans-serif';
-                ctx.textAlign = 'left';
-                const maxWidth = W - 120;
-                const qLines = window.vgGetWrappedLines(ctx, window.vgStripHtml(q.q), maxWidth);
-                let y = 300;
-                qLines.forEach(l => { ctx.fillText(l, 60, y); y += 64; });
-
-                const optY0 = y + 55;
-                const optGap = 110;
-                (q.opts || []).forEach((o, i) => {
-                    const oy = optY0 + i * optGap;
-                    ctx.fillStyle = 'rgba(255,255,255,0.08)';
-                    ctx.fillRect(50, oy - 50, W - 100, 92);
-                    ctx.fillStyle = '#d4a843';
-                    ctx.font = '700 36px Poppins, sans-serif';
-                    ctx.fillText(o.id, 70, oy + 10);
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = '600 34px "Noto Sans Devanagari", Poppins, sans-serif';
-                    ctx.fillText(window.vgStripHtml(o.text).slice(0, 38), 125, oy + 10);
-                });
-
-                // circular countdown timer — sits inside header, top-right, next to logo
-                const secLeft = Math.ceil(msLeft / 1000);
-                const cx = W - 130, cy = 115, r = 58;
-                const frac = msLeft / segments[0].duration;
-                ctx.beginPath();
-                ctx.arc(cx, cy, r, 0, Math.PI * 2);
-                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-                ctx.lineWidth = 10;
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + frac * Math.PI * 2);
-                ctx.strokeStyle = '#d4a843';
-                ctx.lineWidth = 10;
-                ctx.stroke();
-                ctx.fillStyle = '#fff';
-                ctx.font = '700 42px Poppins, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(String(Math.max(0, secLeft)), cx, cy + 15);
-                ctx.textAlign = 'left';
-            }
-
-            function drawAnswerScreen() {
-                window.vgDrawBaseCard(ctx, W, H, chapter);
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 48px "Noto Sans Devanagari", Poppins, sans-serif';
-                ctx.textAlign = 'left';
-                const maxWidth = W - 120;
-                const qLines = window.vgGetWrappedLines(ctx, window.vgStripHtml(q.q), maxWidth);
-                let y = 300;
-                qLines.forEach(l => { ctx.fillText(l, 60, y); y += 64; });
-
-                const optY0 = y + 55;
-                const optGap = 110;
-                (q.opts || []).forEach((o, i) => {
-                    const oy = optY0 + i * optGap;
-                    const isCorrect = o.id === correctAns;
-                    ctx.fillStyle = isCorrect ? 'rgba(40,167,69,0.9)' : 'rgba(255,255,255,0.06)';
-                    ctx.fillRect(50, oy - 50, W - 100, 92);
-                    ctx.fillStyle = isCorrect ? '#ffffff' : '#d4a843';
-                    ctx.font = '700 36px Poppins, sans-serif';
-                    ctx.fillText(o.id, 70, oy + 10);
-                    ctx.fillStyle = isCorrect ? '#ffffff' : 'rgba(255,255,255,0.5)';
-                    ctx.font = '600 34px "Noto Sans Devanagari", Poppins, sans-serif';
-                    ctx.fillText(window.vgStripHtml(o.text).slice(0, 38), 125, oy + 10);
-                });
-
-                const afterOptsY = optY0 + (q.opts || []).length * optGap;
-
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#28a745';
-                ctx.font = '700 42px Poppins, sans-serif';
-                ctx.fillText('✅ Sahi Jawab: ' + correctAns, W / 2, afterOptsY + 25);
-                ctx.textAlign = 'left';
-
-                if (expText) {
-                    const boxTop = afterOptsY + 55;
-                    const availableH = H - boxTop - 50;
-                    const expMaxWidth = W - 190;
-                    const fit = window.vgFitRichText(ctx, expRaw, expMaxWidth, availableH - 70, 24, 38, '600', '"Noto Sans Devanagari", Poppins, sans-serif');
-                    const boxHeight = Math.min(fit.layout.lines.length * fit.lineHeight + 80, H - boxTop - 30);
-
-                    // rounded card with soft gold gradient + left accent bar
-                    const bgGrad = ctx.createLinearGradient(50, boxTop, 50, boxTop + boxHeight);
-                    bgGrad.addColorStop(0, 'rgba(212,168,67,0.16)');
-                    bgGrad.addColorStop(1, 'rgba(212,168,67,0.05)');
-                    window.vgRoundRect(ctx, 50, boxTop, W - 100, boxHeight, 22);
-                    ctx.fillStyle = bgGrad;
-                    ctx.fill();
-                    ctx.strokeStyle = 'rgba(212,168,67,0.4)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                    window.vgRoundRect(ctx, 50, boxTop, 10, boxHeight, 5);
-                    ctx.fillStyle = '#d4a843';
-                    ctx.fill();
-
-                    ctx.fillStyle = '#ffd76b';
-                    ctx.font = '800 34px Poppins, sans-serif';
-                    let ey = boxTop + 54;
-                    ctx.fillText('💡 Explanation', 84, ey);
-                    ey += fit.lineHeight + 10;
-                    window.vgDrawRichLines(ctx, fit.layout, 84, ey, fit.lineHeight, 'rgba(255,255,255,0.92)', '#ffd76b');
-                }
-            }
-
-            function drawPredictedListScreen() {
-                window.vgDrawBaseCard(ctx, W, H, chapter);
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#d4a843';
-                ctx.font = '800 46px Poppins, sans-serif';
-                ctx.fillText('🔮 PREDICTED QUESTIONS', W / 2, 275);
-                ctx.textAlign = 'left';
-
-                const startY = 320;
-                const bottomMargin = 60;
-                const availableH = H - startY - bottomMargin;
-                const maxTextWidth = W - 190;
-                const itemGap = 26;
-                const cardPad = 24;
-                const badgeSize = 46;
-
-                function buildLayout(qFont, aFont) {
-                    let totalH = 0;
-                    const items = predictedList.map((p) => {
-                        const qLayout = window.vgLayoutRichText(ctx, p.q || '', maxTextWidth, qFont, '700', '"Noto Sans Devanagari", Poppins, sans-serif');
-                        const qLineH = qFont + Math.round(qFont * 0.35);
-                        let aLayout = null, aLineH = 0;
-                        if (p.s && p.s.trim()) {
-                            aLayout = window.vgLayoutRichText(ctx, p.s, maxTextWidth, aFont, '600', '"Noto Sans Devanagari", Poppins, sans-serif');
-                            aLineH = aFont + Math.round(aFont * 0.35);
-                        }
-                        const contentH = qLayout.lines.length * qLineH + (aLayout ? aLayout.lines.length * aLineH + 14 : 0);
-                        const cardH = contentH + cardPad * 2;
-                        totalH += cardH + itemGap;
-                        return { qLayout, qLineH, aLayout, aLineH, cardH };
-                    });
-                    return { items, totalH };
-                }
-
-                let qFont = predictedList.length <= 2 ? 54 : (predictedList.length === 3 ? 44 : (predictedList.length === 4 ? 36 : 30));
-                let aFont = qFont - 6;
-                let layout = buildLayout(qFont, aFont);
-                while (layout.totalH > availableH && qFont > 20) {
-                    qFont -= 2;
-                    aFont = qFont - 6;
-                    layout = buildLayout(qFont, aFont);
-                }
-
-                let y = startY;
-                layout.items.forEach((item, i) => {
-                    const cardTop = y;
-                    window.vgRoundRect(ctx, 50, cardTop, W - 100, item.cardH, 20);
-                    ctx.fillStyle = 'rgba(255,255,255,0.07)';
-                    ctx.fill();
-                    ctx.strokeStyle = 'rgba(212,168,67,0.35)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-
-                    // numbered badge
-                    ctx.beginPath();
-                    ctx.arc(50 + 34, cardTop + cardPad + badgeSize / 2 - 6, badgeSize / 2, 0, Math.PI * 2);
-                    ctx.fillStyle = '#d4a843';
-                    ctx.fill();
-                    ctx.fillStyle = '#0f2b5c';
-                    ctx.font = '800 26px Poppins, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(String(i + 1), 50 + 34, cardTop + cardPad + badgeSize / 2 + 3);
-                    ctx.textAlign = 'left';
-
-                    let ty = cardTop + cardPad + qFont;
-                    window.vgDrawRichLines(ctx, item.qLayout, 105, ty, item.qLineH, '#ffffff', '#ffd76b');
-                    ty += item.qLayout.lines.length * item.qLineH;
-                    if (item.aLayout) {
-                        ty += 14;
-                        window.vgDrawRichLines(ctx, item.aLayout, 70, ty, item.aLineH, '#6EE895', '#a8ffc0');
-                    }
-                    y += item.cardH + itemGap;
-                });
-            }
-
-            function drawEndScreen() {
-                window.vgDrawBaseCard(ctx, W, H, chapter);
-                ctx.textAlign = 'center';
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '700 44px Poppins, sans-serif';
-                ctx.fillText('Aur Predicted Questions ke liye', W / 2, H / 2 - 20);
-                ctx.fillStyle = '#d4a843';
-                ctx.font = '800 54px Poppins, sans-serif';
-                ctx.fillText('TEST BODHI App', W / 2, H / 2 + 50);
-            }
-
-            // ---- MediaRecorder setup ----
-            const stream = canvas.captureStream(30);
-            let mimeType = 'video/webm;codecs=vp9';
-            if (!MediaRecorder.isTypeSupported(mimeType)) mimeType = 'video/webm';
-            const recorder = new MediaRecorder(stream, { mimeType: mimeType });
-            const chunks = [];
-            recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) chunks.push(e.data); };
-
-            const donePromise = new Promise((resolve) => {
-                recorder.onstop = () => resolve();
-            });
-
-            recorder.start();
-            if (statusEl) statusEl.innerText = '🎬 Video record ho rahi hai...';
-
-            const startTime = performance.now();
-            function frameLoop() {
-                const elapsed = performance.now() - startTime;
-                if (elapsed >= TOTAL) {
-                    drawEndScreen();
-                    setTimeout(() => recorder.stop(), 100);
-                    return;
-                }
-                const seg = segments.find(s => elapsed >= s.start && elapsed < s.start + s.duration) || segments[segments.length - 1];
-                if (seg.type === 'question') {
-                    drawQuestionScreen(seg.duration - (elapsed - seg.start));
-                } else if (seg.type === 'answer') {
-                    drawAnswerScreen();
-                } else if (seg.type === 'predList') {
-                    drawPredictedListScreen();
-                } else {
-                    drawEndScreen();
-                }
-                requestAnimationFrame(frameLoop);
-            }
-            requestAnimationFrame(frameLoop);
-
-            await donePromise;
-
-            const blob = new Blob(chunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            const safeCode = (window.vgSelected.code || 'question').replace(/[^a-zA-Z0-9_-]/g, '_');
-            a.href = url;
-            a.download = `TestBodhi_Short_${safeCode}_${Date.now()}.webm`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 5000);
-
-            if (statusEl) statusEl.innerText = '✅ Video ban gayi aur download ho gayi! (Silent preview — voice baad mein add hogi)';
-        };
 
         /* ==========================================================================
            INIT
