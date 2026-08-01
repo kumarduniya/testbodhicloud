@@ -8066,14 +8066,17 @@
             const t = window.adminUnifiedTests.find(x => x.code === code);
             if (!t) return;
             let raw = t.rawText || "";
-            const hasRealAnswers = t.questions && t.questions.length > 0 && t.questions.some(q => q.ans);
-            // Bulk dashboard listener only ever carries PUBLIC fields (no
-            // answers) by design now — so "questions already present" is no
-            // longer proof we have everything. Refetch (with the secure
-            // merge) whenever answers are actually missing, not just when
-            // questions/rawText are empty.
-            if (!raw && !hasRealAnswers && !t.isFetched) { window.fetchTestForAdmin(code,
-                    'edit', null); return; }
+            // Always pull the full, current data fresh from Firestore before
+            // editing — UNLESS this exact test was already freshly fetched
+            // earlier in this very function call chain (t.isFetched, set by
+            // handleAdminTestLoad right after such a fetch completes). Having
+            // *some* rawText/answers cached locally is NOT proof it's
+            // current — a stale copy from an older save, a different
+            // device, or an earlier session also has those fields, and
+            // trusting that shortcut is exactly what let an outdated,
+            // shorter question set (e.g. 20 Qs) get shown instead of the
+            // real current one (e.g. 50 Qs) after an edit elsewhere.
+            if (!t.isFetched) { window.fetchTestForAdmin(code, 'edit', null); return; }
             if (!raw && t.questions && t.questions.length > 0) {
                 raw = t.questions.map((q, i) => window.reverseMapQuestionToRaw(q, i)).join('\n');
                 t.rawText = raw;
@@ -8389,14 +8392,10 @@
             const t = window.adminUnifiedTests.find(x => x.code === code);
             if (!t) return window.showCustomAlert("Error", "Data not found!", "❌");
             let raw = t.rawText || "";
-            const hasRealAnswers = t.questions && t.questions.length > 0 && t.questions.some(q => q.ans);
-            // Bulk dashboard listener only ever carries PUBLIC fields (no
-            // answers) by design now — so "questions already present" is no
-            // longer proof we have everything. Refetch (with the secure
-            // merge) whenever answers are actually missing, not just when
-            // questions/rawText are empty.
-            if (!raw && !hasRealAnswers && !t.isFetched) { window.fetchTestForAdmin(code,
-                    'pdf', mode); return; }
+            // Same rule as Edit: cached raw/answers are not proof of
+            // freshness — only trust a fetch that happened in this exact
+            // session (t.isFetched).
+            if (!t.isFetched) { window.fetchTestForAdmin(code, 'pdf', mode); return; }
             if (raw) raw = window.sanitizeMath(raw);
             if (!raw && t.questions && t.questions.length > 0) {
                 raw = t.questions.map((q, i) => window.reverseMapQuestionToRaw(q, i)).join('\n');
