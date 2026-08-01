@@ -8285,7 +8285,14 @@
                     // stay valid; non-live saves just carry over whatever was
                     // last stamped (harmless, since it's only read while live).
                     liveSessionId: goingLiveFresh ? window._genLiveSessionId() : ((prevData && prevData.liveSessionId) || ""),
-                    tags: finalQs.map(q => q.tag || "General")
+                    tags: finalQs.map(q => q.tag || "General"),
+                    // Bumped on EVERY save (new test or edit) — this is the
+                    // "test version" that gets stamped onto each student
+                    // result at submit time. When a saved result's stamped
+                    // version no longer matches this current value, the
+                    // student's My Report knows that result belongs to an
+                    // older, edited-away version of the test and hides it.
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
                 if (btn) { btn.innerText = "⏳ Saving...";
